@@ -21,8 +21,8 @@ npm start -- [operation] [extra param]
 
 ### create did
 ```bash
-npm start -- start [count]
-e.g. npm start -- start 1
+npm start -- create [count]
+e.g. npm start -- create 1
 ```
  
 it will save all the generated did in to `did.json` in the root folder of the project
