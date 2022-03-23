@@ -1,0 +1,7 @@
+dist/*
+.idea/*
+node_modules/*
+.DS_Store
+did.json
+did.txt
+controller.json
