@@ -1,7 +1,7 @@
-import {IonRequest, LocalSigner} from "@decentralized-identity/ion-sdk";
-import {operationApi} from "../api";
-import {AxiosResponse} from "axios";
-import {DIDRecord} from "../models/types";
+import {IonRequest, LocalSigner} from '@decentralized-identity/ion-sdk';
+import {operationApi} from '../api';
+import {AxiosResponse} from 'axios';
+import {DIDRecord} from '../models/types';
 
 export async function deactivateDid(did: string, originDidRecord: DIDRecord): Promise<DIDRecord> {
     let deactivateRequest = await IonRequest.createDeactivateRequest(
@@ -21,6 +21,7 @@ export async function deactivateDid(did: string, originDidRecord: DIDRecord): Pr
             console.log(JSON.stringify(response.data));
             result = {
                 ...originDidRecord,
+                docKeys: [],
                 isActive: false,
                 updatedAt: new Date().toLocaleString()
             }

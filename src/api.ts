@@ -1,5 +1,5 @@
-import {OperationRequest} from "./models/types";
-import {AxiosResponse} from "axios";
+import {OperationRequest} from './models/types';
+import {AxiosResponse} from 'axios';
 
 const baseURL = 'http://localhost:3000';
 const operationURI = '/operations';

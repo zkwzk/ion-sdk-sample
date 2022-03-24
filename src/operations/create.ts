@@ -1,7 +1,7 @@
-import {IonKey, IonPublicKeyPurpose, IonRequest} from "@decentralized-identity/ion-sdk";
-import {AxiosResponse} from "axios";
-import {operationApi} from "../api";
-import {DIDRecord} from "../models/types";
+import {IonKey, IonPublicKeyPurpose, IonRequest} from '@decentralized-identity/ion-sdk';
+import {AxiosResponse} from 'axios';
+import {operationApi} from '../api';
+import {DIDRecord} from '../models/types';
 
 export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
     console.log(`generating ${didCount} dids.\n`)
@@ -10,23 +10,22 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
         console.log(`generate for id ${i} \n`);
         let updateKeyPair = await IonKey.generateEs256kOperationKeyPair();
         let recoverKeyPair = await IonKey.generateEs256kOperationKeyPair();
+        let docKeyPair = await IonKey.generateEs256kDidDocumentKeyPair({
+            id: 'user-key-id1',
+            purposes: [IonPublicKeyPurpose.Authentication]
+        });
         const input = {
             recoveryKey: recoverKeyPair[0],
             updateKey: updateKeyPair[0],
             document: {
                 publicKeys: [
-                    {
-                        id: "updateKeyId1",
-                        type: "EcdsaSecp256k1VerificationKey2019",
-                        publicKeyJwk: updateKeyPair[0],
-                        purposes: [IonPublicKeyPurpose.Authentication],
-                    },
+                    docKeyPair[0],
                 ],
                 services: [
                     {
-                        id: "local-node",
-                        type: "local-type",
-                        serviceEndpoint: "http://localhost:3000"
+                        id: 'local-node',
+                        type: 'local-type',
+                        serviceEndpoint: 'http://localhost:3000'
                     },
                 ],
             },
@@ -37,7 +36,7 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
             console.log(response.status);
             if (response.status == 200) {
                 let did = response.data.didDocument.id;
-                const testPrefix = "test:"
+                const testPrefix = 'test:'
                 console.log(did);
                 return {
                     did: did,
@@ -46,7 +45,14 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
                     recover: {privateKey: recoverKeyPair[1], publicKey: recoverKeyPair[0]},
                     isActive: true,
                     createdAt: new Date().toLocaleString(),
-                    updatedAt: new Date().toLocaleString()
+                    updatedAt: new Date().toLocaleString(),
+                    docKeys: [{
+                        id: docKeyPair[0].id,
+                        type: docKeyPair[0].type,
+                        purpose: docKeyPair[0].purposes,
+                        privateKey: docKeyPair[1],
+                        publicKey: docKeyPair[0].publicKeyJwk
+                    }]
                 } as DIDRecord;
             } else {
                 console.log(JSON.stringify(response.data) + '\n');
