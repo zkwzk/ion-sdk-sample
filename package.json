@@ -1,7 +1,7 @@
 {
-  "name": "sdk-test",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ion-sdk-test",
+  "version": "0.0.1",
+  "description": "a command line tool which using the ION-SDK to test the local sidetree node(ION node or sidetreejs node).",
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js $*",
