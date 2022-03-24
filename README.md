@@ -41,3 +41,11 @@ e.g. npm start -- deactivate did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk
 ```
 
 it will look for the specific did from the `did.json`, and use the private key and public key under the `recover` field to deactivate the origin did
+
+### recover did(seems not work now, created an [issue](https://github.com/decentralized-identity/ion-sdk/issues/24) at ION-SDK project)
+```bash
+npm start -- recover [did]
+e.g. npm start -- recover did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk78-wdLDQ
+```
+
+it will look for the specific did from the `did.json`, and use the private key and public key under the `recover` field to recover the origin did
