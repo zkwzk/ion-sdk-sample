@@ -1,13 +1,12 @@
 # ION-SDK-TEST
 
-this is a project which are testing the invocation of the ION node and ION-SDK.
+This project is a command line tool which using the [ION-SDK](https://github.com/decentralized-identity/ion-sdk) to test the local sidetree node([ION node](https://github.com/decentralized-identity/ion) or [sidetreejs node](https://github.com/transmute-industries/sidetree.js)).
 
 ## Setup
 ```bash
 npm install
-
 ```
-change the `baseURL` in the `api.ts` to the ion node endpoint, then build
+change the `baseURL` and `operationURI` in the `api.ts` to the sidetree node endpoint, then build
 
 ```bash
 npm run build
