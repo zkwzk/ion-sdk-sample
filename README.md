@@ -8,8 +8,14 @@ npm install
 ```
 change the `baseURL` and `operationURI` in the `api.ts` to the sidetree node endpoint, then build
 
+### ION node(did:ion:test:)
 ```bash
-npm run build
+npm run build:ion
+```
+
+### Sidetreejs(did:elem:) node
+```bash
+npm run build:elem
 ```
 ## Usage
 
