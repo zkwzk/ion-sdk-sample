@@ -2,10 +2,11 @@ import {DIDRecord} from '../models/types';
 import {IonKey, IonPublicKeyPurpose, IonRequest, LocalSigner} from '@decentralized-identity/ion-sdk';
 import {operationApi} from '../api';
 import {AxiosResponse} from 'axios';
+import {v4 as uuidv4} from 'uuid';
 
 export async function recoverDid(did: string, originDidRecord: DIDRecord): Promise<DIDRecord> {
     const docKeyPair = await IonKey.generateEs256kDidDocumentKeyPair({
-        id: 'updateKeyId1',
+        id: `r-${uuidv4()}`,
         purposes: [IonPublicKeyPurpose.Authentication]
     });
     let recoverRequest = await IonRequest.createRecoverRequest(
@@ -21,7 +22,7 @@ export async function recoverDid(did: string, originDidRecord: DIDRecord): Promi
                 ],
                 services: [
                     {
-                        id: 'local-node-1',
+                        id: 'local-node-recover',
                         type: 'website',
                         serviceEndpoint: 'http://localhost:3000'
                     },

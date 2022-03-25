@@ -11,7 +11,7 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
         let updateKeyPair = await IonKey.generateEs256kOperationKeyPair();
         let recoverKeyPair = await IonKey.generateEs256kOperationKeyPair();
         let docKeyPair = await IonKey.generateEs256kDidDocumentKeyPair({
-            id: 'user-key-id1',
+            id: 'user-key-origin',
             purposes: [IonPublicKeyPurpose.Authentication]
         });
         const input = {
@@ -23,7 +23,7 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
                 ],
                 services: [
                     {
-                        id: 'local-node',
+                        id: 'local-node-origin',
                         type: 'local-type',
                         serviceEndpoint: 'http://localhost:3000'
                     },
