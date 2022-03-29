@@ -1,12 +1,13 @@
-import {
-    IonNetwork, IonSdkConfig,
-} from '@decentralized-identity/ion-sdk';
+import {IonNetwork, IonSdkConfig,} from '@decentralized-identity/ion-sdk';
 import {DIDRecord} from './models/types';
-import {createDid, deactivateDid, updateDid, recoverDid} from './operations';
+import {createDid, deactivateDid, recoverDid, updateDid} from './operations';
+import {Operation} from './models/constants';
 
 const fs = require('fs');
 
 IonSdkConfig.network = IonNetwork.Testnet;
+
+const requireOriginDidOperations = [Operation.update, Operation.recover, Operation.addUserKey, Operation.deactivate]
 
 async function main(args: string[]) {
     const argv = args.slice(2);
@@ -26,8 +27,23 @@ async function main(args: string[]) {
     let records = JSON.parse(content) as DIDRecord[];
     let originRecordIndex = -1;
     let originRecord: DIDRecord;
+    const operation = argv[0] as string;
+
+    if(operation in requireOriginDidOperations) {
+        if (argv.length === 1) {
+            console.log('please provide did');
+            return;
+        }
+
+        originRecordIndex = records.findIndex(i => i.did === argv[1]);
+        if (originRecordIndex === -1) {
+            console.log('did not exist');
+            return;
+        }
+    }
+
     switch (argv[0] as string) {
-        case 'create':
+        case Operation.create:
             let didCount = 1;
             if (!isNaN(parseFloat(argv[1]))) {
                 didCount = parseFloat(argv[1]);
@@ -37,59 +53,25 @@ async function main(args: string[]) {
             records = records.concat(didRecords);
             console.log(records);
             break;
-        case 'update':
-            if (argv.length === 1) {
-                console.log('please provide did');
-                return;
-            }
-
-            originRecordIndex = records.findIndex(i => i.did === argv[1]);
-            if (originRecordIndex === -1) {
-                console.log('did not exist');
-                return;
-            }
-
+        case Operation.update:
             originRecord = records[originRecordIndex];
             const updatedRecord = await updateDid(originRecord.did, originRecord);
             records[originRecordIndex] = updatedRecord;
             break;
-        case 'deactivate':
-            if (argv.length === 1) {
-                console.log('please provide did');
-                return;
-            }
-
-            originRecordIndex = records.findIndex(i => i.did === argv[1]);
-            if (originRecordIndex === -1) {
-                console.log('did not exist');
-                return;
-            }
-
+        case Operation.deactivate:
             originRecord = records[originRecordIndex];
             const deactivatedRecord = await deactivateDid(originRecord.did, originRecord);
             records[originRecordIndex] = deactivatedRecord;
             break;
-        case 'recover':
-            if (argv.length === 1) {
-                console.log('please provide did');
-                return;
-            }
-
-            originRecordIndex = records.findIndex(i => i.did === argv[1]);
-            if (originRecordIndex === -1) {
-                console.log('did not exist');
-                return;
-            }
-
+        case Operation.recover:
             originRecord = records[originRecordIndex];
             const recoveredRecord = await recoverDid(originRecord.did, originRecord);
             records[originRecordIndex] = recoveredRecord;
             break;
         default:
-            console.log('error');
+            console.log('unsupported operation');
             return;
     }
-
 
     fs.writeFileSync(jsonFilePath, JSON.stringify(records));
 }
