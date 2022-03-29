@@ -1,13 +1,11 @@
 import {IonNetwork, IonSdkConfig,} from '@decentralized-identity/ion-sdk';
 import {DIDRecord} from './models/types';
-import {createDid, deactivateDid, recoverDid, updateDid} from './operations';
+import {addUserKey, createDid, deactivateDid, recoverDid, updateDid} from './operations';
 import {Operation} from './models/constants';
 
 const fs = require('fs');
 
 IonSdkConfig.network = IonNetwork.Testnet;
-
-const requireOriginDidOperations = [Operation.update, Operation.recover, Operation.addUserKey, Operation.deactivate]
 
 async function main(args: string[]) {
     const argv = args.slice(2);
@@ -29,20 +27,7 @@ async function main(args: string[]) {
     let originRecord: DIDRecord;
     const operation = argv[0] as string;
 
-    if(operation in requireOriginDidOperations) {
-        if (argv.length === 1) {
-            console.log('please provide did');
-            return;
-        }
-
-        originRecordIndex = records.findIndex(i => i.did === argv[1]);
-        if (originRecordIndex === -1) {
-            console.log('did not exist');
-            return;
-        }
-    }
-
-    switch (argv[0] as string) {
+    switch (operation) {
         case Operation.create:
             let didCount = 1;
             if (!isNaN(parseFloat(argv[1]))) {
@@ -54,19 +39,69 @@ async function main(args: string[]) {
             console.log(records);
             break;
         case Operation.update:
+            if (argv.length === 1) {
+                console.log('please provide did');
+                return;
+            }
+
+            originRecordIndex = records.findIndex(i => i.did === argv[1]);
+            if (originRecordIndex === -1) {
+                console.log('did not exist');
+                return;
+            }
+
             originRecord = records[originRecordIndex];
             const updatedRecord = await updateDid(originRecord.did, originRecord);
             records[originRecordIndex] = updatedRecord;
             break;
         case Operation.deactivate:
+            if (argv.length === 1) {
+                console.log('please provide did');
+                return;
+            }
+
+            originRecordIndex = records.findIndex(i => i.did === argv[1]);
+            if (originRecordIndex === -1) {
+                console.log('did not exist');
+                return;
+            }
+
             originRecord = records[originRecordIndex];
             const deactivatedRecord = await deactivateDid(originRecord.did, originRecord);
             records[originRecordIndex] = deactivatedRecord;
             break;
         case Operation.recover:
+
+            if (argv.length === 1) {
+                console.log('please provide did');
+                return;
+            }
+
+            originRecordIndex = records.findIndex(i => i.did === argv[1]);
+            if (originRecordIndex === -1) {
+                console.log('did not exist');
+                return;
+            }
+
             originRecord = records[originRecordIndex];
             const recoveredRecord = await recoverDid(originRecord.did, originRecord);
             records[originRecordIndex] = recoveredRecord;
+            break;
+        case Operation.addUserKey:
+            if (argv.length === 1) {
+                console.log('please provide did');
+                return;
+            }
+
+            originRecordIndex = records.findIndex(i => i.did === argv[1]);
+            if (originRecordIndex === -1) {
+                console.log('did not exist');
+                return;
+            }
+
+            originRecord = records[originRecordIndex];
+            const addedKeyRecord = await addUserKey(originRecord.did, originRecord);
+            records[originRecordIndex] = addedKeyRecord;
             break;
         default:
             console.log('unsupported operation');

@@ -47,10 +47,18 @@ e.g. npm start -- deactivate did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk
 
 it will look for the specific did from the `did.json`, and use the private key and public key under the `recover` field to deactivate the origin did
 
-### recover did(seems not work now, created an [issue](https://github.com/decentralized-identity/ion-sdk/issues/24) at ION-SDK project)
+### recover did(seems cannot recover the deactivated did, created an [issue](https://github.com/decentralized-identity/ion-sdk/issues/24) at ION-SDK project)
 ```bash
 npm start -- recover [did]
 e.g. npm start -- recover did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk78-wdLDQ
 ```
 
 it will look for the specific did from the `did.json`, and use the private key and public key under the `recover` field to replace the next update key pair, replace the user key with key id prefix `r-` and replace the service node with id `local-node-recover`
+
+### add user key
+```bash
+npm start -- addUserKey [did]
+e.g. npm start -- addUserKey did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk78-wdLDQ 
+```
+
+it will look for the specific did from the `did.json`, use the private key and public key under the `update` field to add a new user key to did doc, which key id with prefix `added-`, will generate next update key pair and store to `did.json`
