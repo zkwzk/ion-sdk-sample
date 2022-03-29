@@ -37,7 +37,6 @@ export async function updateDid(did: string, originDidRecord: DIDRecord): Promis
                 updatedAt: new Date().toLocaleString(),
                 update: {privateKey: nextUpdateKeyPair[1], publicKey: nextUpdateKeyPair[0]},
                 docKeys: [
-                    ...originDidRecord.docKeys,
                     {
                         id: newDocKey[0].id,
                         type: newDocKey[0].type,

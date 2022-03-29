@@ -20,7 +20,6 @@ npm run build:elem
 ## Usage
 
 ```bash
-
 npm start -- [operation] [extra param]
 ```
 
@@ -38,7 +37,7 @@ e.g. npm start -- update did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk78-w
 ```
 
 it will look for the specific did from the `did.json`, and use the private key and public key under the `update` field to update the origin did,
-it will add a service node `added-local-node` and a new public key to the did doc, and update the `updatedAt` field in the `did.json`
+it will add a service node `added-local-node` and replace the existing user key to a new generated doc key, key id prefix is `updated-`, and update the `updatedAt` field in the `did.json`
 
 ### deactivate did
 ```bash
@@ -54,4 +53,4 @@ npm start -- recover [did]
 e.g. npm start -- recover did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk78-wdLDQ
 ```
 
-it will look for the specific did from the `did.json`, and use the private key and public key under the `recover` field to recover the origin did
+it will look for the specific did from the `did.json`, and use the private key and public key under the `recover` field to replace the next update key pair, replace the user key with key id prefix `r-` and replace the service node with id `local-node-recover`
