@@ -9,13 +9,16 @@ export async function recoverDid(did: string, originDidRecord: DIDRecord): Promi
         id: `r-${uuidv4()}`,
         purposes: [IonPublicKeyPurpose.Authentication]
     });
+    const nextUpdateKeyPair = await IonKey.generateEs256kOperationKeyPair();
+    const nextRecoverKeyPair = await IonKey.generateEs256kOperationKeyPair();
+
     let recoverRequest = await IonRequest.createRecoverRequest(
         {
             didSuffix: originDidRecord.didSuffix,
             recoveryPublicKey: originDidRecord.recover.publicKey,
             signer: LocalSigner.create(originDidRecord.recover.privateKey),
-            nextRecoveryPublicKey: originDidRecord.recover.publicKey,
-            nextUpdatePublicKey: originDidRecord.update.publicKey,
+            nextRecoveryPublicKey: nextRecoverKeyPair[0],
+            nextUpdatePublicKey: nextUpdateKeyPair[0],
             document: {
                 publicKeys: [
                     docKeyPair[0]
@@ -50,7 +53,15 @@ export async function recoverDid(did: string, originDidRecord: DIDRecord): Promi
                     }
                 ],
                 isActive: true,
-                updatedAt: new Date().toLocaleString()
+                updatedAt: new Date().toISOString(),
+                update: {
+                    publicKey: nextUpdateKeyPair[0],
+                    privateKey: nextUpdateKeyPair[1]
+                },
+                recover: {
+                    publicKey: nextRecoverKeyPair[0],
+                    privateKey: nextRecoverKeyPair[1]
+                }
             }
         }
     });
