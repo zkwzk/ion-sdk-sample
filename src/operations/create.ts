@@ -40,7 +40,7 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
                 console.log(did);
                 return {
                     did: did,
-                    didSuffix: did.substr(lastColonIndex),
+                    didSuffix: did.substr(lastColonIndex + 1),
                     update: {privateKey: updateKeyPair[1], publicKey: updateKeyPair[0]},
                     recover: {privateKey: recoverKeyPair[1], publicKey: recoverKeyPair[0]},
                     isActive: true,
