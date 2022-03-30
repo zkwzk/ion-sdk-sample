@@ -36,16 +36,16 @@ export async function createDid(didCount: number = 1): Promise<DIDRecord[]> {
             console.log(response.status);
             if (response.status == 200) {
                 let did = response.data.didDocument.id;
-                const testPrefix = 'test:'
+                const lastColonIndex = did.lastIndexOf(':');
                 console.log(did);
                 return {
                     did: did,
-                    didSuffix: did.substr(did.indexOf(testPrefix) + testPrefix.length),
+                    didSuffix: did.substr(lastColonIndex),
                     update: {privateKey: updateKeyPair[1], publicKey: updateKeyPair[0]},
                     recover: {privateKey: recoverKeyPair[1], publicKey: recoverKeyPair[0]},
                     isActive: true,
-                    createdAt: new Date().toLocaleString(),
-                    updatedAt: new Date().toLocaleString(),
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
                     docKeys: [{
                         id: docKeyPair[0].id,
                         type: docKeyPair[0].type,

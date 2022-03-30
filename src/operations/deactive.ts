@@ -23,7 +23,7 @@ export async function deactivateDid(did: string, originDidRecord: DIDRecord): Pr
                 ...originDidRecord,
                 docKeys: [],
                 isActive: false,
-                updatedAt: new Date().toLocaleString()
+                updatedAt: new Date().toISOString()
             }
         }
     });

@@ -37,7 +37,7 @@ e.g. npm start -- update did:ion:test:EiBoImStfIE3FVIsRM4L2CGGWTLrpiKMsxmKvk78-w
 ```
 
 it will look for the specific did from the `did.json`, and use the private key and public key under the `update` field to update the origin did,
-it will add a service node `added-local-node` and replace the existing user key to a new generated doc key, key id prefix is `updated-`, and update the `updatedAt` field in the `did.json`
+it will delete all of existing user keys and add a new generated user key, key id prefix should be `updated-`, and update the `updatedAt` field in the `did.json`
 
 ### deactivate did
 ```bash

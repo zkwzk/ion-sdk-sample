@@ -34,7 +34,7 @@ export async function updateDid(did: string, originDidRecord: DIDRecord): Promis
             console.log(JSON.stringify(response.data));
             result = {
                 ...originDidRecord,
-                updatedAt: new Date().toLocaleString(),
+                updatedAt: new Date().toISOString(),
                 update: {privateKey: nextUpdateKeyPair[1], publicKey: nextUpdateKeyPair[0]},
                 docKeys: [
                     {
