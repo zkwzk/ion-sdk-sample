@@ -1,5 +1,4 @@
 
-# spm
   post /dids   - create one did
 request:
   userPublicKey:
