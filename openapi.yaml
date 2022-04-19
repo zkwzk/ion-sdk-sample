@@ -1,0 +1,54 @@
+
+# spm
+  post /dids   - create one did
+request:
+  userPublicKey:
+  updatePublicKey:
+response:
+  did:
+    type: string
+  get  /dids   - retrive all user dids
+response:
+  type: array
+  items:
+    did:
+      type: string
+  get  /dids/{did}  - resolve one did
+request:
+  did
+response:
+  didDoc
+  get  /dids/{did}/operations  - retrieve all operations for this did
+request:
+  did
+response:
+  type: array
+  items:
+    DidOperation:
+      type:
+        type: string
+      status:
+        type: string
+      transactionTime:
+        type: int32
+  post /dids/{did}/recover  - recover one did
+request:
+  did:
+  userPublicKey:
+  updatePublicKey:
+response:
+  null
+  post /dids/{did}/update  - update one did
+request:
+  did:
+  userPublickKey: string
+  nextUpdatePublicKey: string
+  currentUpdatePublicKey: string
+  compactJws: string
+response:
+  null
+  post /dids/{did}/deactivate  - deactivate one did
+request:
+  did:
+response:
+  null
