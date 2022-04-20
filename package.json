@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js $*",
     "build:ion": "npx tsc && cp .env.ion ./dist/.env",
-    "build:elem": "npx tsc cp && .env.elem ./dist/.env"
+    "build:elem": "npx tsc && cp .env.elem ./dist/.env"
   },
   "author": "",
   "license": "ISC",
